@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+MASTER_DIR=~/dev/hkfeed-dev/master_lists
 DATE=$(./date.py)
 WORKDIR=~/dev/hkfeed-dev/daily_reports/$DATE
 mkdir $WORKDIR
@@ -25,6 +27,13 @@ cd $WORKDIR
 # create versions file
 ~/dev/code/all_versions_today.sh | sort -u > $WORKDIR/$DATE-versions.txt
 
+# update master lists
+~/dev/code/update_master.sh
+
+git add $MASTER_DIR
+
+git commit -m "Updating master lists for $DATE"
+
 # add files to git repo
 git add $WORKDIR
 
@@ -36,3 +45,4 @@ git push
 
 # send confirmation email
 # ~/dev/code/email.py
+
